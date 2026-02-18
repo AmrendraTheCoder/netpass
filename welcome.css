@@ -1,0 +1,330 @@
+/* ── Welcome Page Styles ── */
+
+.welcome-body {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-container {
+  width: 420px;
+  padding: 32px;
+  position: relative;
+}
+
+/* ── Slides ── */
+
+.slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  min-height: 320px;
+  animation: fadeIn 0.3s ease;
+}
+
+.slide.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: var(--accent-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.slide h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.slide p {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  opacity: 0.65;
+  margin: 0;
+  max-width: 340px;
+}
+
+.slide p strong {
+  opacity: 1;
+  color: var(--accent-hover);
+}
+
+/* ── Features List ── */
+
+.slide-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-self: stretch;
+  margin-top: 4px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.feature-item svg {
+  color: var(--success-color);
+  flex-shrink: 0;
+}
+
+/* ── Step Cards ── */
+
+.step-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  text-align: left;
+  align-self: stretch;
+}
+
+.step-card strong {
+  color: var(--accent-hover);
+}
+
+.step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.note {
+  font-size: 0.7rem !important;
+  opacity: 0.4 !important;
+  font-style: italic;
+}
+
+/* ── How Flow ── */
+
+.how-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  align-self: stretch;
+  padding-left: 20px;
+}
+
+.flow-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 6px 0;
+}
+
+.flow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.flow-line {
+  width: 2px;
+  height: 14px;
+  background: var(--border);
+  margin-left: 3px;
+}
+
+/* ── OS Tabs ── */
+
+.os-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+  align-self: stretch;
+}
+
+.os-tab {
+  flex: 1;
+  padding: 7px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.os-tab.active {
+  background: var(--accent);
+  color: white;
+}
+
+.os-tab:not(.active):hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.os-content {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  align-self: stretch;
+  text-align: left;
+}
+
+.os-content.active {
+  display: flex;
+}
+
+.os-content p {
+  text-align: left;
+  font-size: 0.78rem;
+}
+
+.code-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+
+body.light .code-block {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.code-block code {
+  font-size: 0.72rem;
+  color: var(--accent-hover);
+  line-height: 1.6;
+}
+
+/* ── Navigation ── */
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+body.light .dot {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dot.active {
+  background: var(--accent);
+  width: 20px;
+  border-radius: 4px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.nav-btn:not(:disabled):hover {
+  border-color: var(--accent);
+}
+
+.nav-btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.nav-btn-primary:not(:disabled):hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.autoconnect.wifi</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/open</string>
+        <string>-a</string>
+        <string>Google Chrome</string>
+    </array>
+
+    <!-- Run when user logs in -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Also run every 4 hours (14400 seconds) as a backup -->
+    <key>StartInterval</key>
+    <integer>14400</integer>
+
+    <!-- Don't keep it running, just fire and done -->
+    <key>KeepAlive</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/autoconnect-wifi.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/autoconnect-wifi.err</string>
+</dict>
+</plist>

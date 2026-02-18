@@ -1,0 +1,543 @@
+:root {
+  --text-color: #e2e2ee;
+  --input-bg: rgba(255, 255, 255, 0.06);
+  --accent: #7c6cf0;
+  --accent-hover: #a599ff;
+  --accent-glow: rgba(124, 108, 240, 0.25);
+  --error-color: #f07086;
+  --success-color: #4ade80;
+  --warning-color: #fbbf24;
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.07);
+}
+
+body.light {
+  --text-color: #1e1e2e;
+  --input-bg: #ffffff;
+  --accent: #6c5ce7;
+  --accent-hover: #5a4bd1;
+  --accent-glow: rgba(108, 92, 231, 0.12);
+  --error-color: #e84393;
+  --success-color: #00b894;
+  --warning-color: #f39c12;
+  --card-bg: rgba(108, 92, 231, 0.05);
+  --border: rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--text-color);
+  background: linear-gradient(160deg, #0c0b1e 0%, #171236 45%, #0e1a30 100%);
+  width: 300px;
+  padding: 16px;
+  transition: background 0.3s;
+}
+
+body.light {
+  background: linear-gradient(160deg, #f4f0ff 0%, #e8e2f8 45%, #e0e8ff 100%);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Header ── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.brand-icon {
+  color: var(--accent);
+}
+
+h1 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.theme-icon {
+  opacity: 0.5;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+.icon-btn:hover {
+  opacity: 0.9;
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 16px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: 0.3s;
+}
+
+body.light .slider {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 2px;
+  bottom: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+input:checked + .slider {
+  background: var(--accent);
+}
+
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+/* ── Form ── */
+
+#form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-svg-icon {
+  position: absolute;
+  left: 10px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 9px 34px 9px 32px;
+  font-size: 0.8rem;
+  font-family: "Inter", sans-serif;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.input-group input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.22);
+  font-weight: 400;
+}
+
+body.light .input-group input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Eye Button ── */
+
+.eye-btn {
+  position: absolute;
+  right: 2px;
+  background: none !important;
+  border: none;
+  padding: 6px 7px;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0.35;
+  transition: opacity 0.15s;
+  display: flex;
+  align-items: center;
+  box-shadow: none !important;
+}
+
+.eye-btn:hover {
+  opacity: 0.7;
+  background: none !important;
+  transform: none;
+  box-shadow: none !important;
+}
+
+/* ── Save Button ── */
+
+button#save {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+button#save:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+button#save:disabled {
+  opacity: 0.8;
+  cursor: default;
+}
+
+button#save.saving {
+  background: var(--accent);
+}
+
+button#save.saved {
+  background: var(--success-color);
+  color: #0a0a1a;
+}
+
+/* ── Spinner ── */
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Form Error ── */
+
+.form-error {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+/* ── Shake ── */
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+.shake {
+  animation: shake 0.35s ease;
+}
+
+.shake input {
+  border-color: var(--error-color) !important;
+}
+
+/* ── Hidden ── */
+
+.hidden {
+  display: none !important;
+}
+.hidden-section {
+  display: none !important;
+}
+
+/* ── Options ── */
+
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Status Card ── */
+
+.status-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #666;
+}
+
+.dot-connected {
+  background: var(--success-color);
+  box-shadow: 0 0 6px var(--success-color);
+}
+
+.dot-warning {
+  background: var(--warning-color);
+  box-shadow: 0 0 6px var(--warning-color);
+}
+
+.dot-disabled {
+  background: #555;
+}
+
+.dot-pending {
+  background: var(--accent);
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.status-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.status-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.4;
+  font-weight: 600;
+}
+
+.status-value {
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Auto-Login ── */
+
+.auto-login-section {
+  padding: 10px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.auto-login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.auto-login-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auto-login-icon {
+  opacity: 0.45;
+  flex-shrink: 0;
+}
+
+.auto-login-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.auto-login-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.auto-login-sub {
+  font-size: 0.6rem;
+  opacity: 0.38;
+}
+
+.small-switch {
+  width: 30px;
+  height: 15px;
+}
+
+.small-switch .slider:before {
+  height: 11px;
+  width: 11px;
+}
+
+.small-switch input:checked + .slider:before {
+  transform: translateX(14px);
+}
+
+/* ── Action Buttons ── */
+
+.action-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-primary,
+.btn-secondary {
+  flex: 1;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+}
+
+/* ── Toast ── */
+
+.toast {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--success-color);
+  color: #0a0a1a;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.25);
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
