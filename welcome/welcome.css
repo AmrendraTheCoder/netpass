@@ -135,6 +135,38 @@
   flex-shrink: 0;
 }
 
+/* ── Browser Grid ── */
+
+.browser-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-self: stretch;
+  margin-top: 2px;
+}
+
+.browser-grid .step-card {
+  padding: 8px 12px;
+}
+
+.browser-grid .step-num {
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.browser-grid code {
+  font-family: "SF Mono", "Fira Code", monospace;
+  font-size: 0.68rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--accent-hover);
+}
+
+body.light .browser-grid code {
+  background: rgba(0, 0, 0, 0.05);
+}
+
 .note {
   font-size: 0.7rem !important;
   opacity: 0.4 !important;
