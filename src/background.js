@@ -12,7 +12,9 @@ chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === "install") {
     chrome.storage.local.get(["onboardingDone"], ({ onboardingDone }) => {
       if (!onboardingDone) {
-        chrome.tabs.create({ url: chrome.runtime.getURL("welcome.html") });
+        chrome.tabs.create({
+          url: chrome.runtime.getURL("welcome/welcome.html"),
+        });
       }
     });
   }
@@ -164,7 +166,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     // This will throw if the page is an error page
     await chrome.scripting.executeScript({
       target: { tabId },
-      files: ["content.js"],
+      files: ["src/content.js"],
     });
     LOG("content.js injected into tab", tabId);
   } catch (err) {
