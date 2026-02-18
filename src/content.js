@@ -1,4 +1,9 @@
-// Guard against multiple injections (Chrome may re-inject on tab updates)
+// Cross-browser polyfill — normalize browser namespace
+if (typeof globalThis.browser === "undefined") {
+  globalThis.browser = chrome;
+}
+
+// Guard against multiple injections (browser may re-inject on tab updates)
 if (window.__netpass_injected) {
   console.log("[NetPass] Already injected, skipping.");
 } else {
@@ -71,7 +76,7 @@ if (window.__netpass_injected) {
 
     if (isSuccess) {
       try {
-        chrome.runtime.sendMessage({ type: "LOGIN_SUCCESS" });
+        browser.runtime.sendMessage({ type: "LOGIN_SUCCESS" });
         console.log("[NetPass] Login success notification sent.");
       } catch (e) {
         console.log("[NetPass] Could not send message:", e.message);
@@ -90,7 +95,7 @@ if (window.__netpass_injected) {
     if (alreadyLoggedIn) {
       console.log("[NetPass] Already logged in. Notifying background...");
       try {
-        chrome.runtime.sendMessage({ type: "LOGIN_SUCCESS" });
+        browser.runtime.sendMessage({ type: "LOGIN_SUCCESS" });
       } catch (e) {
         /* ignore */
       }
@@ -119,7 +124,7 @@ if (window.__netpass_injected) {
           );
           if (usernameInput) {
             observer.disconnect();
-            chrome.storage.local.get(
+            browser.storage.local.get(
               ["username", "password"],
               ({ username, password }) => {
                 if (!username || !password) return;
@@ -135,7 +140,7 @@ if (window.__netpass_injected) {
     }
 
     // Normal login if not on logout screen
-    chrome.storage.local.get(
+    browser.storage.local.get(
       ["username", "password"],
       ({ username, password }) => {
         if (!username || !password) return;

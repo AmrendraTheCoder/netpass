@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "NetPass — LNMIIT WiFi",
-  "version": "2.0",
-  "description": "Automatic WiFi login for LNMIIT. Never enter credentials again.",
+  "version": "2.1",
+  "description": "Automatic WiFi login for LNMIIT. Never enter credentials again. Works on Chrome, Edge, Brave, Firefox, Opera & more.",
   "permissions": ["storage", "scripting", "tabs", "alarms"],
   "host_permissions": ["https://172.22.2.6/*"],
   "action": {
@@ -17,10 +17,23 @@
   "background": {
     "service_worker": "src/background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://172.22.2.6/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "icons": {
     "16": "assets/icons/icon16.png",
     "32": "assets/icons/icon32.png",
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "netpass@lnmiit.wifi",
+      "strict_min_version": "109.0"
+    }
   }
 }

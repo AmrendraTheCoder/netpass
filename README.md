@@ -25,7 +25,7 @@ To install manually for free:
    ```
 3. Enable **Developer Mode** (top right).
 4. Click **Load unpacked**.
-5. Select the `Netpass` folder (this project's root directory).
+5. Select the `netpass-main` folder (this project's root directory).
 6. The NetPass icon will now appear in the Chrome toolbar.
 
 ---
@@ -51,7 +51,7 @@ If you are redirected to a "Regain Access" page after logout, NetPass handles th
 ## File Structure
 
 ```
-Netpass/
+netpass-main/
 ├── manifest.json                 # Chrome extension configuration
 ├── README.md                     # This file
 │

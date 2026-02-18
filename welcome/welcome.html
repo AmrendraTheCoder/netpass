@@ -75,7 +75,7 @@
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            <span>Works on macOS & Windows</span>
+            <span>Works on Chrome, Edge, Brave, Firefox, Opera & more</span>
           </div>
         </div>
       </div>
@@ -99,16 +99,19 @@
         </div>
         <h2>Step 1 — Save Credentials</h2>
         <p>
-          Click the NetPass icon in your Chrome toolbar and enter your
+          Click the NetPass icon in your browser toolbar and enter your
           <strong>LNMIIT WiFi username & password</strong>.
         </p>
         <div class="step-card">
           <div class="step-num">1</div>
-          <span>Click the <strong>NetPass</strong> icon in Chrome toolbar</span>
+          <span
+            >Click the <strong>NetPass</strong> icon in your browser
+            toolbar</span
+          >
         </div>
         <div class="step-card">
           <div class="step-num">2</div>
-          <span>
+          <span
             >Enter your <strong>WiFi username</strong> and
             <strong>password</strong></span
           >
@@ -191,8 +194,8 @@
         </div>
         <h2>Step 3 — Auto-Start (Optional)</h2>
         <p>
-          Want Chrome to open automatically when you log in? Run the script for
-          your OS:
+          Want your browser to open automatically when you log in? Run the
+          script for your OS:
         </p>
         <div class="os-tabs">
           <button class="os-tab active" data-os="mac">macOS</button>
@@ -201,21 +204,106 @@
         <div class="os-content active" id="os-mac">
           <p>Open <strong>Terminal</strong> and run:</p>
           <div class="code-block">
-            <code>cd ~/Downloads/Auto-Connect-main/scripts</code>
+            <code>cd ~/Downloads/netpass-main/scripts</code>
+            <code>chmod +x install_launch_agent.sh</code>
             <code>./install_launch_agent.sh</code>
           </div>
+          <p class="note">
+            The script will detect your installed browsers and let you choose
+            which one to auto-start.
+          </p>
         </div>
         <div class="os-content" id="os-win">
-          <p>
-            Open <strong>PowerShell</strong> (or double-click the file) and run:
-          </p>
+          <p>Open <strong>PowerShell as Administrator</strong> and run:</p>
           <div class="code-block">
-            <code>cd ~\Downloads\Auto-Connect-main\scripts</code>
+            <code>cd ~\Downloads\netpass-main\scripts</code>
             <code>.\install_task_scheduler.bat</code>
+          </div>
+          <p class="note">
+            The script will detect your installed browsers and let you choose
+            which one to auto-start.
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 5: Browser Install Guide -->
+      <div class="slide" id="slide-4">
+        <div class="slide-icon">
+          <svg
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+        </div>
+        <h2>Installation by Browser</h2>
+        <p>Load NetPass as an unpacked extension in your browser:</p>
+        <div class="browser-grid">
+          <div class="step-card">
+            <div
+              class="step-num"
+              style="background: linear-gradient(135deg, #4285f4, #34a853)"
+            >
+              C
+            </div>
+            <span
+              ><strong>Chrome</strong> — <code>chrome://extensions</code></span
+            >
+          </div>
+          <div class="step-card">
+            <div
+              class="step-num"
+              style="background: linear-gradient(135deg, #0078d4, #00bcf2)"
+            >
+              E
+            </div>
+            <span><strong>Edge</strong> — <code>edge://extensions</code></span>
+          </div>
+          <div class="step-card">
+            <div
+              class="step-num"
+              style="background: linear-gradient(135deg, #fb542b, #343546)"
+            >
+              B
+            </div>
+            <span
+              ><strong>Brave</strong> — <code>brave://extensions</code></span
+            >
+          </div>
+          <div class="step-card">
+            <div
+              class="step-num"
+              style="background: linear-gradient(135deg, #ff1b2d, #a4000f)"
+            >
+              O
+            </div>
+            <span
+              ><strong>Opera</strong> — <code>opera://extensions</code></span
+            >
+          </div>
+          <div class="step-card">
+            <div
+              class="step-num"
+              style="background: linear-gradient(135deg, #ff9400, #e66000)"
+            >
+              F
+            </div>
+            <span><strong>Firefox</strong> — <code>about:debugging</code></span>
           </div>
         </div>
         <p class="note">
-          This ensures Chrome starts on login so the extension stays active.
+          Enable <strong>Developer Mode</strong>, click
+          <strong>Load unpacked</strong> (or
+          <strong>Load Temporary Add-on</strong> in Firefox), and select the
+          NetPass folder.
         </p>
       </div>
 
@@ -226,6 +314,7 @@
           <span class="dot" data-index="1"></span>
           <span class="dot" data-index="2"></span>
           <span class="dot" data-index="3"></span>
+          <span class="dot" data-index="4"></span>
         </div>
         <div class="nav-buttons">
           <button id="prevBtn" class="nav-btn" disabled>

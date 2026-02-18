@@ -1,3 +1,8 @@
+// Cross-browser polyfill — normalize browser namespace
+if (typeof globalThis.browser === "undefined") {
+  globalThis.browser = chrome;
+}
+
 const ALARM_NAME = "wifi-auto-login";
 const ALARM_INTERVAL_MINUTES = 240;
 const PORTAL_URL = "https://172.22.2.6/connect/PortalMain";
@@ -8,27 +13,27 @@ const LOG = (...args) => console.log("[NetPass]", ...args);
 // Alarm setup
 // ──────────────────────────────────────────────
 
-chrome.runtime.onInstalled.addListener((details) => {
+browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === "install") {
-    chrome.storage.local.get(["onboardingDone"], ({ onboardingDone }) => {
+    browser.storage.local.get(["onboardingDone"], ({ onboardingDone }) => {
       if (!onboardingDone) {
-        chrome.tabs.create({
-          url: chrome.runtime.getURL("welcome/welcome.html"),
+        browser.tabs.create({
+          url: browser.runtime.getURL("welcome/welcome.html"),
         });
       }
     });
   }
 
-  chrome.storage.local.get(["autoLoginEnabled"], ({ autoLoginEnabled }) => {
+  browser.storage.local.get(["autoLoginEnabled"], ({ autoLoginEnabled }) => {
     if (autoLoginEnabled !== false) {
-      chrome.storage.local.set({ autoLoginEnabled: true });
+      browser.storage.local.set({ autoLoginEnabled: true });
       createAlarm();
     }
   });
 });
 
-chrome.runtime.onStartup.addListener(() => {
-  chrome.storage.local.get(["autoLoginEnabled"], ({ autoLoginEnabled }) => {
+browser.runtime.onStartup.addListener(() => {
+  browser.storage.local.get(["autoLoginEnabled"], ({ autoLoginEnabled }) => {
     if (autoLoginEnabled) {
       createAlarm();
       setTimeout(() => checkAndLogin(), 5000);
@@ -36,14 +41,14 @@ chrome.runtime.onStartup.addListener(() => {
   });
 });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
+browser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === ALARM_NAME) checkAndLogin();
 });
 
 function createAlarm() {
-  chrome.alarms.get(ALARM_NAME, (existing) => {
+  browser.alarms.get(ALARM_NAME, (existing) => {
     if (!existing) {
-      chrome.alarms.create(ALARM_NAME, {
+      browser.alarms.create(ALARM_NAME, {
         delayInMinutes: 1,
         periodInMinutes: ALARM_INTERVAL_MINUTES,
       });
@@ -53,7 +58,7 @@ function createAlarm() {
 }
 
 function removeAlarm() {
-  chrome.alarms.clear(ALARM_NAME, (ok) => ok && LOG("Alarm removed"));
+  browser.alarms.clear(ALARM_NAME, (ok) => ok && LOG("Alarm removed"));
 }
 
 // ──────────────────────────────────────────────
@@ -73,7 +78,7 @@ async function checkAndLogin() {
   LOG("Not connected. Opening portal...");
   updateStatus("Logging in...");
 
-  chrome.storage.local.get(
+  browser.storage.local.get(
     ["username", "password"],
     ({ username, password }) => {
       if (!username || !password) {
@@ -82,15 +87,15 @@ async function checkAndLogin() {
         return;
       }
 
-      chrome.tabs.query({ url: "https://172.22.2.6/*" }, (tabs) => {
+      browser.tabs.query({ url: "https://172.22.2.6/*" }, (tabs) => {
         if (tabs.length > 0) {
-          chrome.tabs.reload(tabs[0].id);
+          browser.tabs.reload(tabs[0].id);
           LOG("Portal tab exists, reloading.");
         } else {
-          chrome.tabs.create({ url: PORTAL_URL, active: false }, (tab) => {
-            if (chrome.runtime.lastError) return;
+          browser.tabs.create({ url: PORTAL_URL, active: false }, (tab) => {
+            if (browser.runtime.lastError) return;
             LOG("Opened portal tab:", tab.id);
-            chrome.storage.local.set({ autoOpenedTabId: tab.id });
+            browser.storage.local.set({ autoOpenedTabId: tab.id });
           });
         }
       });
@@ -115,7 +120,7 @@ async function checkConnectivity() {
 }
 
 function updateStatus(status) {
-  chrome.storage.local.set({
+  browser.storage.local.set({
     lastCheckTime: new Date().toLocaleString(),
     lastCheckStatus: status,
   });
@@ -125,18 +130,18 @@ function updateStatus(status) {
 // Message listener
 // ──────────────────────────────────────────────
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "LOGIN_SUCCESS") {
     LOG("Login successful!");
     updateStatus("Logged in ✓");
 
-    chrome.storage.local.get(["autoOpenedTabId"], ({ autoOpenedTabId }) => {
+    browser.storage.local.get(["autoOpenedTabId"], ({ autoOpenedTabId }) => {
       if (autoOpenedTabId && sender.tab && sender.tab.id === autoOpenedTabId) {
         setTimeout(() => {
-          chrome.tabs.remove(sender.tab.id, () => {
-            if (chrome.runtime.lastError) return;
+          browser.tabs.remove(sender.tab.id, () => {
+            if (browser.runtime.lastError) return;
             LOG("Portal tab closed.");
-            chrome.storage.local.remove("autoOpenedTabId");
+            browser.storage.local.remove("autoOpenedTabId");
           });
         }, 2000);
       }
@@ -153,36 +158,42 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // ──────────────────────────────────────────────
-// Content script injection (programmatic only)
-// Using async listener + try/catch to fully
-// suppress errors on unreachable/error pages
+// Content script injection (programmatic — Chromium)
+// Firefox uses content_scripts in manifest.json instead
 // ──────────────────────────────────────────────
 
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status !== "complete") return;
   if (!tab.url || !tab.url.includes("172.22.2.6")) return;
 
-  try {
-    // This will throw if the page is an error page
-    await chrome.scripting.executeScript({
-      target: { tabId },
-      files: ["src/content.js"],
-    });
-    LOG("content.js injected into tab", tabId);
-  } catch (err) {
-    // Fully caught — no unhandled rejection
-    LOG("Injection skipped:", err.message);
+  // Check if scripting API is available (Chromium browsers)
+  if (browser.scripting && browser.scripting.executeScript) {
+    try {
+      await browser.scripting.executeScript({
+        target: { tabId },
+        files: ["src/content.js"],
+      });
+      LOG("content.js injected into tab", tabId);
+    } catch (err) {
+      LOG("Injection skipped:", err.message);
 
-    // Close auto-opened error tabs
-    chrome.storage.local.get(["autoOpenedTabId"], ({ autoOpenedTabId }) => {
-      if (autoOpenedTabId && autoOpenedTabId === tabId) {
-        LOG("Closing unreachable auto-opened tab.");
-        updateStatus("Portal unreachable");
-        chrome.tabs.remove(tabId, () => {
-          if (chrome.runtime.lastError) return;
-          chrome.storage.local.remove("autoOpenedTabId");
-        });
-      }
-    });
+      // Close auto-opened error tabs
+      browser.storage.local.get(["autoOpenedTabId"], ({ autoOpenedTabId }) => {
+        if (autoOpenedTabId && autoOpenedTabId === tabId) {
+          LOG("Closing unreachable auto-opened tab.");
+          updateStatus("Portal unreachable");
+          browser.tabs.remove(tabId, () => {
+            if (browser.runtime.lastError) return;
+            browser.storage.local.remove("autoOpenedTabId");
+          });
+        }
+      });
+    }
+  } else {
+    // Firefox: content script is injected via manifest.json content_scripts
+    // Just handle the error-tab cleanup here
+    LOG(
+      "Programmatic injection not available (Firefox). Using manifest content_scripts.",
+    );
   }
 });

@@ -1,3 +1,8 @@
+// Cross-browser polyfill — normalize browser namespace
+if (typeof globalThis.browser === "undefined") {
+  globalThis.browser = chrome;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // ── Helpers ──
   const $ = (id) => document.getElementById(id);
@@ -24,14 +29,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const helpBtn = $("helpBtn");
   if (helpBtn) {
     helpBtn.addEventListener("click", () => {
-      chrome.tabs.create({
-        url: chrome.runtime.getURL("welcome/welcome.html"),
+      browser.tabs.create({
+        url: browser.runtime.getURL("welcome/welcome.html"),
       });
     });
   }
 
   // ── Check if credentials saved ──
-  chrome.storage.local.get(["username", "password"], (data) => {
+  browser.storage.local.get(["username", "password"], (data) => {
     try {
       const f = $("form");
       const o = $("options");
@@ -46,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ── Auto-login toggle ──
-  chrome.storage.local.get(["autoLoginEnabled"], (data) => {
+  browser.storage.local.get(["autoLoginEnabled"], (data) => {
     try {
       const toggle = $("autoLoginToggle");
       if (toggle) toggle.checked = data.autoLoginEnabled !== false;
@@ -59,13 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (autoToggle) {
     autoToggle.addEventListener("change", () => {
       const enabled = autoToggle.checked;
-      chrome.storage.local.set({ autoLoginEnabled: enabled });
-      chrome.runtime.sendMessage({ type: "TOGGLE_AUTO_LOGIN", enabled }, () => {
-        // Consume response to prevent "Error handling response" messages
-        if (chrome.runtime.lastError) {
-          /* ignore */
-        }
-      });
+      browser.storage.local.set({ autoLoginEnabled: enabled });
+      browser.runtime.sendMessage(
+        { type: "TOGGLE_AUTO_LOGIN", enabled },
+        () => {
+          // Consume response to prevent "Error handling response" messages
+          if (browser.runtime.lastError) {
+            /* ignore */
+          }
+        },
+      );
       updateStatus();
     });
   }
@@ -77,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const dot = $("statusDot");
       if (!info || !dot) return;
 
-      chrome.storage.local.get(
+      browser.storage.local.get(
         ["lastCheckTime", "lastCheckStatus", "autoLoginEnabled"],
         (data) => {
           try {
@@ -165,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
       saveBtn.classList.add("saving");
 
       setTimeout(() => {
-        chrome.storage.local.set({ username: u, password: p }, () => {
+        browser.storage.local.set({ username: u, password: p }, () => {
           try {
             if (sTxt) sTxt.textContent = "Saved";
             if (sSpn) sSpn.classList.add("hidden");
@@ -230,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const connBtn = $("connect");
   if (connBtn) {
     connBtn.addEventListener("click", () => {
-      chrome.tabs.create({ url: "https://172.22.2.6/connect/PortalMain" });
+      browser.tabs.create({ url: "https://172.22.2.6/connect/PortalMain" });
     });
   }
 
@@ -238,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const chgBtn = $("change");
   if (chgBtn) {
     chgBtn.addEventListener("click", () => {
-      chrome.storage.local.get(["username", "password"], (data) => {
+      browser.storage.local.get(["username", "password"], (data) => {
         try {
           const uI = $("username");
           const pI = $("password");
@@ -275,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const MOON_SVG =
     '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
 
-  chrome.storage.local.get(["theme"], (data) => {
+  browser.storage.local.get(["theme"], (data) => {
     try {
       if (data.theme === "light") {
         document.body.classList.add("light");
@@ -295,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const isLight = themeSwitch.checked;
         document.body.classList.toggle("light", isLight);
-        chrome.storage.local.set({ theme: isLight ? "light" : "dark" });
+        browser.storage.local.set({ theme: isLight ? "light" : "dark" });
         const i = $("themeIcon");
         if (i) i.innerHTML = isLight ? SUN_SVG : MOON_SVG;
       } catch (e) {

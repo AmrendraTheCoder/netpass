@@ -1,3 +1,8 @@
+// Cross-browser polyfill — normalize browser namespace
+if (typeof globalThis.browser === "undefined") {
+  globalThis.browser = chrome;
+}
+
 const slides = document.querySelectorAll(".slide");
 const dots = document.querySelectorAll(".dot");
 const prevBtn = document.getElementById("prevBtn");
@@ -33,7 +38,7 @@ nextBtn.addEventListener("click", () => {
     showSlide(current + 1);
   } else {
     // Mark onboarding as complete and close
-    chrome.storage.local.set({ onboardingDone: true }, () => {
+    browser.storage.local.set({ onboardingDone: true }, () => {
       window.close();
     });
   }
@@ -66,7 +71,7 @@ document.querySelectorAll(".os-tab").forEach((tab) => {
 });
 
 // Apply theme
-chrome.storage.local.get(["theme"], ({ theme }) => {
+browser.storage.local.get(["theme"], ({ theme }) => {
   if (theme === "light") {
     document.body.classList.add("light");
   }
