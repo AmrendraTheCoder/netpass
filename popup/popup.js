@@ -24,7 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const helpBtn = $("helpBtn");
   if (helpBtn) {
     helpBtn.addEventListener("click", () => {
-      chrome.tabs.create({ url: chrome.runtime.getURL("welcome.html") });
+      chrome.tabs.create({
+        url: chrome.runtime.getURL("welcome/welcome.html"),
+      });
     });
   }
 
